@@ -1,0 +1,106 @@
+<mat-toolbar color="primary">
+  <h1>
+    Sentiment Analysis
+  </h1>
+</mat-toolbar>
+
+<div class="container">
+  <div class="col-md-6">
+    <div class="col-md-12">
+        <h2 style="margin: 2px;">
+          Enter Keyword :
+
+          <input type="text" #moviename style="margin: 5px; padding: 10px; border-width: 5px;">
+
+          <div class="example-button-row" style="margin: 5px; display: inline-block;">
+            <button (click)="submit(moviename.value)" mat-raised-button color="primary">Submit</button>
+          </div>
+
+        </h2>
+
+      </div>
+
+      <div class="col-md-12">
+      <div class="chart" style="width: 50%; display: inline-block;">
+        <canvas baseChart
+                [chartType]="barChartType"
+                [datasets]="barChartDatasets"
+                [labels]="barChartLabels"
+                [colors]="barChartColors"
+                [options]="barChartOptions"
+                [legend]="true"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+
+      <div class="chart" style="width: 50%; display: inline-block;">
+        <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [colors]="pieChartColors"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+      <div>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Index">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.Index + 1}} </td>
+          </ng-container>
+
+          <!-- Tweet Column -->
+          <ng-container matColumnDef="Tweet">
+            <th mat-header-cell *matHeaderCellDef> Tweet </th>
+            <td mat-cell *matCellDef="let element"> {{element.Tweet}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="Sentiment">
+            <th mat-header-cell *matHeaderCellDef> Sentiment </th>
+            <td mat-cell *matCellDef="let element"> {{element.Sentiment}} </td>
+          </ng-container>
+
+          Weight Column
+          <ng-container matColumnDef="PositiveScore">
+            <th mat-header-cell *matHeaderCellDef> PositiveScore </th>
+            <td mat-cell *matCellDef="let element"> {{element.SentimentScore.Positive | number }} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="NegativeScore">
+            <th mat-header-cell *matHeaderCellDef> NegativeScore </th>
+            <td mat-cell *matCellDef="let element"> {{element.SentimentScore.Negative | number }} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="NeutralScore">
+            <th mat-header-cell *matHeaderCellDef> NeutralScore </th>
+            <td mat-cell *matCellDef="let element"> {{element.SentimentScore.Neutral | number }} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="MixedScore">
+            <th mat-header-cell *matHeaderCellDef> MixedScore </th>
+            <td mat-cell *matCellDef="let element"> {{element.SentimentScore.Mixed | number }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+  </div>
+  <div class="col-md-6">
+  </div>
+
+</div>
+<router-outlet></router-outlet>
